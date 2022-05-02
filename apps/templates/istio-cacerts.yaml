@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: istio-cacerts
+spec:
+  project: istio
+
+  destination:
+    name: ''
+    namespace: istio-system
+    server: 'https://kubernetes.default.svc'
+
+  source:
+    plugin:
+      name: argocd-vault-plugin-helm  
+      env:
+        - name: HELM_VALUES
+          value: |
+            certsPath: security-dev                     
+    path: helm-charts/istio-cacerts
+    repoURL: https://github.com/paas2/istio.git
+    targetRevision: HEAD
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true  
+    automated:  
+      prune: true   

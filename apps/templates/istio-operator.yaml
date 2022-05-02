@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+  name: istio-operator
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: istio
+  
+  source:
+    helm:
+      version: v3
+      valueFiles:
+      - values.yaml
+    path: helm-charts/istio-operator
+    repoURL: https://github.com/paas2/istio.git
+    targetRevision: HEAD
+    
+  destination:
+    namespace: istio-system
+    server: {{ .Values.spec.destination.server }}
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true  
+    automated:  
+      prune: true 
+
