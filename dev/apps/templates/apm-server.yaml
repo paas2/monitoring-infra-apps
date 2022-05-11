@@ -14,7 +14,7 @@ spec:
       valueFiles:
       - values.yaml
       - values-monitoring-{{ .Values.env }}.yaml
-    path: helm-charts/thanos
+    path: helm-charts/apm-server
     repoURL: https://github.com/paas2/apm-server 
     targetRevision: HEAD
     
