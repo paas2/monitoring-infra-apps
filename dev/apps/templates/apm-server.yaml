@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: apm-server
+  namespace: argocd
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  project: apm-server
+
+  source:
+    helm:
+      version: v3
+      valueFiles:
+      - values.yaml
+      - values-monitoring-{{ .Values.env }}.yaml
+    path: helm-charts/thanos
+    repoURL: https://github.com/paas2/apm-server 
+    targetRevision: HEAD
+    
+  destination:
+    namespace: monitoring
+    server: {{ .Values.spec.destination.server }}
+
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true  
+    automated:  
+      prune: true 
