@@ -1,0 +1,6 @@
+dependencies:
+- name: argo-apps-base
+  repository: https://paas2.github.io/paas-helm-charts/
+  version: 1.0.10
+digest: sha256:f895cc7b31fd7fc8abf19f3d6cf198862773337883bdf776d4f25d250f3de572
+generated: "2022-06-09T15:10:58.809234+04:00"
