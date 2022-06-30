@@ -105,7 +105,7 @@ global:
     grafana:
       destination:
         namespace: monitoring
-      project: prometheus
+      project: grafana
       source:
         path: helm-charts/grafana
         repoURL: git@github.com:paas2/prometheus.git   
@@ -118,7 +118,7 @@ global:
     thanos:
       destination:
         namespace: monitoring
-      project: prometheus
+      project: thanos
       source:
         path: helm-charts/thanos
         repoURL: git@github.com:paas2/prometheus.git   
