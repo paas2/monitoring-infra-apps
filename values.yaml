@@ -1,0 +1,129 @@
+global:
+  cluster: monitoring
+
+  projects:
+
+    istio:
+      description: 'istio deployment.'
+      sourceRepos:
+      - git@github.com:paas2/istio.git
+      destinations:
+        namespaces:
+        - istio-system  
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'             
+
+    prometheus:
+      description: 'prometheus deployment'
+      sourceRepos:
+      - git@github.com:paas2/prometheus.git
+      destinations:
+        namespaces:
+        - monitoring
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'  
+
+    grafana:
+      description: 'grafana deployment'
+      sourceRepos:
+      - git@github.com:paas2/prometheus.git
+      destinations:
+        namespaces:
+        - monitoring
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'    
+
+    thanos:
+      description: 'thanos deployment'
+      sourceRepos:
+      - git@github.com:paas2/prometheus.git
+      destinations:
+        namespaces:
+        - monitoring
+      extraFields: |
+        clusterResourceWhitelist:
+        - group: '*'
+          kind: '*'         
+                              
+  applications:
+
+    istio-base:
+      destination:
+        namespace: istio-system
+      project: istio
+      source:
+        path: helm-charts/base
+        repoURL: git@github.com:paas2/istio.git
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml       
+
+    istio-operator:
+      destination:
+        namespace: istio-system
+      project: istio
+      source:
+        path: helm-charts/istio-operator
+        repoURL: git@github.com:paas2/istio.git
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml      
+
+    istio-profile:
+      destination:
+        namespace: istio-system
+      project: istio
+      source:
+        path: helm-charts/clusters/security/operator
+        repoURL: git@github.com:paas2/istio.git  
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values-{{ $.Values.global.envName }}.yaml          
+
+    prometheus:
+      destination:
+        namespace: monitoring
+      project: prometheus
+      source:
+        path: helm-charts/kube-prometheus
+        repoURL: git@github.com:paas2/prometheus.git   
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml   
+            - values-{{ $.Values.global.cluster }}-{{ $.Values.global.envName }}.yaml      
+
+    grafana:
+      destination:
+        namespace: monitoring
+      project: prometheus
+      source:
+        path: helm-charts/grafana
+        repoURL: git@github.com:paas2/prometheus.git   
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml   
+            - values-{{ $.Values.global.cluster }}-{{ $.Values.global.envName }}.yaml      
+            
+    thanos:
+      destination:
+        namespace: monitoring
+      project: prometheus
+      source:
+        path: helm-charts/thanos
+        repoURL: git@github.com:paas2/prometheus.git   
+        extraSourceFields: |
+          helm:
+            valueFiles:
+            - values.yaml   
+            - values-{{ $.Values.global.cluster }}-{{ $.Values.global.envName }}.yaml             

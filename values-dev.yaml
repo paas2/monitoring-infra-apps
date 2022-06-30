@@ -1,0 +1,22 @@
+global:
+  envName: dev       
+
+  projects:
+    istio:
+      enabled: true 
+    prometheus:
+      enabled: true  
+    grafana:
+      enabled: true  
+    thanos:
+      enabled: true       
+
+  applications:
+    istio:
+      enabled: true 
+    prometheus:
+      enabled: true  
+    grafana:
+      enabled: true  
+    thanos:
+      enabled: true                   
