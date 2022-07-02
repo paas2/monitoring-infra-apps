@@ -12,7 +12,11 @@ global:
       enabled: true       
 
   applications:
-    istio:
+    istio-base:
+      enabled: true 
+    istio-operator:
+      enabled: true 
+    istio-profile:
       enabled: true 
     prometheus:
       enabled: true  
