@@ -22,6 +22,7 @@ global:
       destinations:
         namespaces:
         - monitoring
+        - kube-system
       extraFields: |
         clusterResourceWhitelist:
         - group: '*'
